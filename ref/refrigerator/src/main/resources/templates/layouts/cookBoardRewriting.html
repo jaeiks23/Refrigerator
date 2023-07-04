@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th=http://www.thymeleaf.org
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <link th:href="@{/css/refrigerator_in.css}" type="text/css" rel="stylesheet">
+  <link th:href="@{/css/board.css}" type="text/css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Inter:wght@200&display=swap" rel="stylesheet">
+  <title>Title</title>
+  <style>
+  
+  	form{
+		background-color: rgba(255,255,255,0.8);
+ 		opacity : 0.9;
+		width: 1614px;
+		margin: 3% 5% 0px;
+		border-radius: 15px;
+		padding-bottom: 25px;
+		padding-left: 100px;
+		padding-top: 25px;  
+	}
+	
+	h1{
+		margin-left: 125px;
+		margin-bottom : 50px;
+		position: relative;
+		top: 25px;
+	}
+	
+	.inputContainer{
+		border: 1px solid silver;
+		margin-left: 125px;
+		padding-top: 20px;
+		padding-left : 25px;
+		padding-bottom : 20px;
+		margin-bottom : 20px;
+		width: 1275px;
+	}
+	#title{
+		width : 1244px;
+		border: 1px solid silver;
+		margin-right : 25px;
+		margin-bottom: 10px;
+	}
+	
+	[type=file]{
+		display: block;
+	}
+	
+	.content-inline{
+		display: inline-block;
+	}
+	
+	.content-block{
+		display: block;
+	}
+	
+	.inputFileContainer{
+		border: 1px solid silver;
+		margin-left: 125px;
+		padding-top: 20px;
+		padding-left : 25px;
+		padding-bottom : 20px;
+		margin-bottom : 20px;
+		width: 1275px;
+	}
+	.content-inline{
+		border : 1px solid silver;
+		padding : 10px;
+		width : 800px;
+		margin-right : 10px;
+		margin-bottom : 20px;
+		text-overflow : ellipsis;;
+	}
+	#footContainer{
+		border: 1px solid silver;
+		width : 1300px;
+		height : 100px;
+		margin-left: 125px;
+		margin-top: 50px;
+		margin-bottom: 25px; 
+	}
+	.writeButton{
+		margin-top : 35px;
+		margin-left : 550px;
+		height : 30px;
+		width : 100px;
+		background-color: #2F89DD;
+		border: none;
+		border-radius: 3px;
+		font-size: 15px;
+		font-weight: bold;
+		color: white;
+	}
+	
+	.cancleButton{
+		margin-top : 35px;
+		margin-left : 20px;
+		height : 30px;
+		width : 100px;
+		border-radius: 3px;
+		font-size: 15px;
+		font-weight: bold;
+	}
+	</style>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/css/suneditor.min.css" rel="stylesheet">
+<!-- <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/assets/css/suneditor.css" rel="stylesheet"> -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/suneditor@latest/assets/css/suneditor-contents.css" rel="stylesheet"> -->
+<script src="https://cdn.jsdelivr.net/npm/suneditor@latest/dist/suneditor.min.js"></script>
+<!-- languages (Basic Language: English/en) -->
+<script src="https://cdn.jsdelivr.net/npm/suneditor@latest/src/lang/ko.js"></script>
+<script layout:fragment="javascript" th:inline="javascript">
+
+$(function(){
+    SUNEDITOR.create('content',{
+      font : [
+          'Arial',
+          'tahoma',
+          'Courier New,Courier'
+      ],
+      fontSize : [
+          8, 10, 14, 18, 24, 36, 48, 60
+      ],
+      colorList: [
+          ['#ccc', '#dedede', 'OrangeRed', 'Orange', 'RoyalBlue', 'SaddleBrown'],
+          ['SlateGray', 'BurlyWood', 'DeepPink', 'FireBrick', 'Gold', 'SeaGreen']
+      ],
+      width: '100%',
+      maxWidth: '1250px',
+      minWidth: 1250,
+      height : 'auto',
+      imageWidth : 150,
+      popupDisplay: 'local',
+      resizingBar: false,
+      buttonList : [
+          ['font', 'fontSize'],
+          ['bold', 'underline', 'italic', 'strike'],
+          ['fontColor', 'hiliteColor'],
+          ['outdent', 'indent'],
+          ['align', 'horizontalRule', 'list', 'lineHeight'],
+          ['table' ]
+      ],
+      imageFileInput : true,
+      callBackSave: function (contents) {
+          alert(contents);
+      }
+    });
+  });
+  
+$(document).ready(function(){
+	var content = /*[[${cookWritingDTO.content}]]*/'';
+	console.log(content);
+	$('.sun-editor-editable').html(content);
+	for(var i=0; i<$('.images').length; i++){
+		var contentName = $('.images').eq(i).attr('src');
+		var contentName = contentName.slice(16)
+		var className = $('.images').eq(i).attr('class');
+		className = className.slice(0,9)
+		if(i==0){
+		var rest = '<div class="'+className+' pastRep"><div class="content-inline">'+contentName+'</div><button type="button" value="'+className+'" onclick="delFunc(this.value)" class="content-button">x</button></div>';			
+		}else{
+		var rest = '<div class="'+className+'"><div class="content-inline">'+contentName+'</div><button type="button" value="'+className+'" onclick="delFunc(this.value)" class="content-button">x</button></div>';		
+		}
+		console.log(className)
+		$('.inputFileContainer').append(rest);
+		if($('.inputFileContainer').children(0)==$('#image1')){
+			console.log('check');
+		}
+	} 
+	
+	if($('img').length!==0){		
+		var imgClass = Number($('img:last').attr('class').slice(8,9));
+		var imgcount = imgClass;
+	}else{
+		var imgcount = 0;
+	}
+	var fileInputter = `<input type="file" id="image1" name="images" onchange="sendImage()" class="imgCount${imgcount+1}">`
+	
+	$('.inputFileContainer').append(fileInputter);
+	
+	var memRole = [[${member.role}]];
+	if(memRole!='ADMIN'){
+		$('.mypage_form').css('height','160px');
+	}
+	
+});
+  
+function changeVal(){
+    var checkBox = document.getElementById("notice");
+    var notice = document.getElementById("noticeCheck");
+    console.log(checkBox.checked);
+    notice.value="Y";
+if(!checkBox.checked){
+	notice.value="N";
+}
+    console.log(notice);
+	
+}
+
+	var count = 2;
+function sendImage(){
+	var token=$("meta[name='_csrf']").attr("content");
+    var header=$("meta[name='_csrf_header']").attr("content")
+	console.log($('img').length)
+	if($('img').length!==0){		
+		var imgClass = Number($('img:last').attr('class').slice(8,9));
+		var imgcount = imgClass;
+	}else{
+		var imgcount = 0;
+	}
+	console.log(imgClass);
+	var input = `<input type="file" id="image${count}" name="images" onchange="sendImage()" class="imgCount${imgcount+2}">`;
+	var fileInput = $('#image'+`${count-1}`)[0];
+	var file = fileInput.files[0];
+	var fileName = file.name;
+	var inputFileName = `<div class="imgCount${imgcount+1} content-block"><div class="content-inline">${fileName}</div><button type="button" value="imgCount${imgcount+1}" onclick="delFunc(this.value)" class="content-button">x</button></div>`;
+	console.log(file);
+	var formData = new FormData();
+	formData.append('image',file);
+	formData.append('count',count-1);
+	var url = "/cookBoard/doCookImageSet"
+	
+	$.ajax({
+		
+		url : url,
+		type : 'POST',
+		enctype:'multipart/form-data',
+		contentType : false,
+        processData : false, 
+		data : formData,
+		beforeSend : function(xhr){
+	        xhr.setRequestHeader(header,token);
+	      },
+		success : function(result){
+			var imageUrl = result;
+			var img = '<img src='+result+` style="width:200px; height:200px" class="imgCount${imgcount+1} images">`
+			$('.sun-editor-editable').append(img);
+			
+		},
+		error : function(){
+			alert('error')
+		}
+		
+	})
+	$('.inputFileContainer').append(inputFileName);
+	$('.inputFileContainer').append(input);
+	$('#image'+`${count-1}`).css('display','none');
+	count++;
+}
+
+function addContent(){
+	var value = $('.sun-editor-editable').html();
+	var content = $('#contents').val(value);
+	if($('.pastRep').length==0){
+		var newRep = $('.images:first').attr('src');
+		$('[name=repUrl]').val(newRep);
+	}
+	if($.trim($('#title').val())==''){
+		alert('제목을 입력해주세요')
+	}else if($('#contents').val()=='<p><br></p>'){
+		alert('내용을 입력해주세요')
+	}else{
+		$('#form').submit();
+	}
+}
+
+
+function delFunc(t){
+	var imgContent = $('.'+t)
+	var imgContent2 = $('img.'+t)
+	var imgParent = imgContent2.parent().parent();
+	console.log(imgParent.attr('class').split(' ')[1])
+	var button = $('[value='+t+']')
+	if(imgParent.attr('class').split(' ')[1]=='se-image-container'){
+		imgParent.remove();
+	}
+	imgContent.remove();
+	button.remove();
+}
+
+</script>
+</head>
+<body class="body">
+<div th:replace="fragments/gnb::navi"></div>
+<div layout:fragment="content"></div>
+
+</body>
+</html>
