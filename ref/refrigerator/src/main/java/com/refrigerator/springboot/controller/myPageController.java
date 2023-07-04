@@ -104,10 +104,10 @@ public class myPageController {
 		model.addAttribute("member", member);
 		model.addAttribute("name",member.getName());
 		model.addAttribute("nickname",member.getNickname());
-		model.addAttribute("email",member.getEmail());		
+		model.addAttribute("email",member.getEmail());
 		model.addAttribute("loginType", member.getLoginType());
 		return "mypage/mypage02";
-		
+
 	}
 
 	@GetMapping("/mywriting")
@@ -171,7 +171,13 @@ public class myPageController {
 		Pageable pageable = PageRequest.of(page.isPresent()? page.get() :0,4);
 		System.out.println(pageable+"페이저블");
 		Page<MypageCommentDTO> mypageRecipeCommentDTO = recipeBoardRepository.getMyRecipeComment(member, pageable);
+		if(mypageRecipeCommentDTO.getNumberOfElements()==0) {
+			model.addAttribute("noRecipeComment", "작성한 댓글이 없습니다.");
+		}
 		Page<MypageCommentDTO> mypageCookCommentDTO = cookBoardRepository.getMyCookComment(member, pageable);
+		if(mypageCookCommentDTO.getNumberOfElements()==0) {
+			model.addAttribute("noCookComment", "작성한 댓글이 없습니다.");
+		}
 		System.out.println(mypageRecipeCommentDTO+"왜안댐");
 		MemberImg memberImg = memImgRepository.findByMember(member);
 		model.addAttribute("memberImg", memberImg);
@@ -229,7 +235,7 @@ public class myPageController {
 
 	@Autowired
 	private PasswordService  passwordService;
-	
+
 	@GetMapping("/myPage/password")
 	public String updatePassword(
 			@RequestParam("currentPassword") String currentPassword,
@@ -252,17 +258,17 @@ public class myPageController {
 		return "/LoginForm";
 	}
 
-	   @PostMapping("/changeNickname")
-	   @ResponseBody
-	   public ResponseEntity<String> changeNick(@RequestParam("newNickname") String newNickname, HttpServletRequest request) throws UnsupportedEncodingException{
-	      MemberDto dto = (MemberDto) request.getSession().getAttribute("user");
-	      Member member = memberRepository.findByEmailAndLoginType(dto.getEmail(), dto.getLoginType());
-	      String decodeNickname = URLDecoder.decode(newNickname, "UTF-8");
-	      String replaceStr = decodeNickname.replace("=", "");
-	      member.setNickname(replaceStr);
-	      memberRepository.save(member);
-	      return ResponseEntity.ok("");
-	   }
+	@PostMapping("/changeNickname")
+	@ResponseBody
+	public ResponseEntity<String> changeNick(@RequestParam("newNickname") String newNickname, HttpServletRequest request) throws UnsupportedEncodingException{
+		MemberDto dto = (MemberDto) request.getSession().getAttribute("user");
+		Member member = memberRepository.findByEmailAndLoginType(dto.getEmail(), dto.getLoginType());
+		String decodeNickname = URLDecoder.decode(newNickname, "UTF-8");
+		String replaceStr = decodeNickname.replace("=", "");
+		member.setNickname(replaceStr);
+		memberRepository.save(member);
+		return ResponseEntity.ok("");
+	}
 
 	@PostMapping("/myPage/profile")
 	public @ResponseBody ResponseEntity<String> updateProfile(@ModelAttribute FormDataDTO formData) {
@@ -282,7 +288,7 @@ public class myPageController {
 		mypageService.updateProfileImage(image, member);
 		return ResponseEntity.ok("");
 	}
-	
+
 	@PostMapping("/checkPassword")
 	public @ResponseBody ResponseEntity<String> checkPassword(@RequestParam("currentPassword")String currentPassword, HttpServletRequest request){
 		MemberDto dto = (MemberDto) request.getSession().getAttribute("user");
@@ -308,5 +314,5 @@ public class myPageController {
 		Member member = memberRepository.findByEmailAndLoginType(dto.getEmail(), dto.getLoginType());
 		return "mypage/passwordChange";
 	}
-	
+
 }

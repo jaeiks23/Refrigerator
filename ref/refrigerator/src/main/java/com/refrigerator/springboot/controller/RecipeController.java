@@ -81,7 +81,7 @@ public class RecipeController {
                 }
                 recipeApiDTO3.setId(recipeBoard.getWritingid());
                 recipeApiDTO3.setRep_nm(recipeBoard.getTitle());
-                recipeApiDTO3.setInfo_eng(Integer.toString(recipeBoard.getKcal()));
+                recipeApiDTO3.setInfo_eng(Double.toString(recipeBoard.getKcal()));
                 recipeApiDTO3.setManual(content);
                 recipeApiDTO3.setRcp_part(ingredient);
                 String[] count = ingredient.split(",");
@@ -169,7 +169,7 @@ public class RecipeController {
             }
             recipeApiDTO3.setId(recipeBoard.getWritingid());
             recipeApiDTO3.setRep_nm(recipeBoard.getTitle());
-            recipeApiDTO3.setInfo_eng(Integer.toString(recipeBoard.getKcal()));
+            recipeApiDTO3.setInfo_eng(Double.toString(recipeBoard.getKcal()));
             recipeApiDTO3.setManual(content);
             recipeApiDTO3.setRcp_part(ingredient);
             String[] count = ingredient.split(",");

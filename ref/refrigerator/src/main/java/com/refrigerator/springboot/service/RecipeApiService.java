@@ -175,7 +175,7 @@ public class RecipeApiService {
             	}
             	recipeApiDTO3.setId(recipeBoard.getWritingid());
             	recipeApiDTO3.setRep_nm(recipeBoard.getTitle());
-            	recipeApiDTO3.setInfo_eng(Integer.toString(recipeBoard.getKcal()));
+            	recipeApiDTO3.setInfo_eng(Double.toString(recipeBoard.getKcal()));
             	recipeApiDTO3.setManual(content);
             	recipeApiDTO3.setRcp_part(ingredient);
             	String[] count = ingredient.split(",");
@@ -301,7 +301,7 @@ public class RecipeApiService {
         	for(RecipeIngredient recipeIngredient : recipeIngredients) {
         		ingredient += recipeIngredient.getIngrediant()+"("+recipeIngredient.getIngrediantVol()+"),";
         	}
-        	RecipeApiDTO recipeApiDTO = new RecipeApiDTO(recipeBoard.getTitle(), Integer.toString(recipeBoard.getKcal()), ingredient, content);
+        	RecipeApiDTO recipeApiDTO = new RecipeApiDTO(recipeBoard.getTitle(), Double.toString(recipeBoard.getKcal()), ingredient, content);
         	return recipeApiDTO;
         }else {
         	RecipeAPI recipeAPI = recipeApiRepository.getRecipefindByName(id);

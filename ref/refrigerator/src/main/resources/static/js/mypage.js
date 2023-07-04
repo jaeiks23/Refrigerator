@@ -21,7 +21,7 @@ function toggle_menu(){
 		var boardId = $('.'+t+'boardId').text();
 		console.log(writingId);
 	
-		window.open('','checkNotified',"toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=500, height=500, top=0,left=20")
+		window.open('','checkNotified',"toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=900, height=700, top=0,left=20")
 		$('#member').val(member);
 		$('#notifiedMember').val(notifiedMember);
 		$('#title').val(title);

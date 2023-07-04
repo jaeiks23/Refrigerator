@@ -59,7 +59,7 @@ public class SecurityConfig {
         http.headers().frameOptions().sameOrigin();
 
         http.authorizeRequests()
-                .mvcMatchers("/", "/member/**","/recipeBoard/**","/cookBoard/**", "/auth/**","/main/**","/random").permitAll()
+                .mvcMatchers("/", "/member/**","/recipeBoard/","/recipeBoard/recipeView","/cookBoard/","/cookBoard/CookBoardDetail", "/auth/**","/main/**","/random").permitAll()
                 .mvcMatchers("/css/**", "/js/**","/img/**").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

@@ -30,11 +30,11 @@ OCTYPE html>
                 </button>
                 <div class="mypage_form">
                     <div class="mypage_list">
-                        <a style="  color: black;" href="/mypage/">내 활동</a><hr>
-                        <a style="  color: black;" href="/mypage/recipeBook">레시피북</a><hr>
-                        <a style="  color: black;" href="/mypage/profile">프로필 관리</a><hr>
-                        <a style="  color: black;" href="/admin/NotifiedList" th:if="${member.role.toString()}=='ADMIN'">신고관리</a><hr th:if="${member.role.toString()}=='ADMIN'">
-                        <a style="  color: black;" href="/member/logout">로그아웃</a>
+                        <a style="  color: black;" class="listText" href="/mypage/">내 활동</a><hr>
+                        <a style="  color: black;" class="listText" href="/mypage/recipeBook">레시피북</a><hr>
+                        <a style="  color: black;" class="listText" href="/mypage/profile">프로필 관리</a><hr>
+                        <a style="  color: black;" class="listText" href="/admin/NotifiedList" th:if="${member.role.toString()}=='ADMIN'">신고관리</a><hr th:if="${member.role.toString()}=='ADMIN'">
+                        <a style="  color: black;" class="listText" href="/member/logout">로그아웃</a>
                     </div>
                 </div>
             </div>

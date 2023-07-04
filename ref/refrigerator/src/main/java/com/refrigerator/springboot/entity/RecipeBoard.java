@@ -58,7 +58,7 @@ public class RecipeBoard {
 	@Enumerated(EnumType.STRING)
 	private NoticeCheck noticecheck;
 	@ColumnDefault("0")
-	private int kcal;
+	private double kcal;
 	private String difficulty;
 	private String cooktip;
 	@ColumnDefault("0")

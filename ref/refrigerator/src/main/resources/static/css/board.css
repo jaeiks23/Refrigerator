@@ -9,7 +9,13 @@ body::-webkit-scrollbar{
 body::-webkit-scrollbar-thumb {
     display: none;
 }
+a{
+    color : black;
+}
 
+.listText{
+    font-family: 'Do Hyeon', sans-serif;
+}
 body::-webkit-scrollbar-track {
     display: none;
 }

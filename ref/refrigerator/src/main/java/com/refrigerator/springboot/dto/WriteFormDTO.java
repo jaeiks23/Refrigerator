@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class WriteFormDTO {
 	private String title;
-	private int kcal;
+	private double kcal;
 	private List<String> ingrediant;
 	private List<String> ingrediantVol;
 	private String cookTip;

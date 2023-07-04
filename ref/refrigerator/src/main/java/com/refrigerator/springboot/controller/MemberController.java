@@ -1,5 +1,6 @@
 package com.refrigerator.springboot.controller;
 
+import com.nimbusds.oauth2.sdk.http.HTTPResponse;
 import com.refrigerator.springboot.constant.LoginType;
 import com.refrigerator.springboot.constant.Role;
 import com.refrigerator.springboot.dto.MemberDto;
@@ -61,7 +62,6 @@ public class MemberController {
 
     @GetMapping(value = "/member/login")
     public String loginPage() {
-
         return "/member/login/loginForm";
     }
 
@@ -78,9 +78,25 @@ public class MemberController {
     }
 
     @GetMapping(value = "/member/changePW")
-    public String changePasswordPage() {
+    public String changePasswordPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String sName = (String) request.getSession().getAttribute("name");
+        if(sName ==null){
 
+            alert(response,"잘못된 경로입니다.");
+        }
         return "/member/find/changePW";
+    }
+    public static void alert(HttpServletResponse response, String msg) {
+        try {
+            response.setContentType("text/html; charset=utf-8");
+            PrintWriter w = response.getWriter();
+            w.write("<script>alert('"+msg+"');</script>");
+            w.write("<script>location.href='/member/login'</script>");
+            w.flush();
+            w.close();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/member/changePW", method = {RequestMethod.POST})
@@ -90,6 +106,7 @@ public class MemberController {
         String sEmail = (String) request.getSession().getAttribute("email");
 
         Member member = memberRepository.findByEmailAndLoginTypeAndAndName(sEmail, LoginType.NOMAL, sName);
+
         String decodedPassword = URLDecoder.decode(newPassword, "UTF-8");
         String changeStr = decodedPassword.replace("=", "");
         System.out.println(changeStr);
