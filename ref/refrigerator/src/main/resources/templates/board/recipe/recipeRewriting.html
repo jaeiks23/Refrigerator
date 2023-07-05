@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div id="kcalContainer">
-				<input type="number" name="kcal" id="kcal" placeholder="0" th:value="${rewriteDTO.recipeBoard.kcal}"/>
+				<input type="text" name="kcal" id="kcal" placeholder="0" th:value="${rewriteDTO.recipeBoard.kcal}"/>
 			</div>
 			<div id="recipeIngrediant">
 				<button type="button" onclick="addIngrediant()" id="addIngButton">재료입력</button>
@@ -40,7 +40,7 @@
 			<div class="contents" id="contents">
 				<div class="content" th:each="recipeContent,i : ${rewriteDTO.recipeContents}">
 					<div th:id="'con'+${i.count}"><span class="step" th:text="'step.'+${i.count<10? '0'+i.count:i.count}+' '"></span><textarea th:id="'content'+${i.count}" name="recipeContent" rows="5" cols="100" >[[${recipeContent.content}]]</textarea>
-						<img th:if="${recipeContent.url.toString}!=''" th:src="${recipeContent.url}" th:class="'imgcon'+${i.count}+' imgcontent'"><button type="button" th:if="${recipeContent.url.toString}!=''" onclick="changeImage(this.value)" th:value="'imgcon'+${i.count}">X</button>
+						<img th:if="${recipeContent.url.toString}!=''" th:src="${recipeContent.url}" th:class="'imgcon'+${i.count}+' imgcontent'"><button type="button" th:if="${recipeContent.url.toString}!=''" onclick="changeImage(this.value)" th:value="'imgcon'+${i.count}" style="margin-left: 1px;">x</button>
 						<input type="file" th:if="${recipeContent.url.toString}!=''" style="display: none" th:class="'imgcon'+${i.count}" name="recipeImages">
 						<div th:if="${recipeContent.url.toString}==''" class="imgBox">
 							<label th:for="'Image'+${i.count}">이미지 추가</label>

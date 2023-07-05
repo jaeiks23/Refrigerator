@@ -760,6 +760,7 @@ document.querySelector('.ing_Insertlist').onclick = function(){
             }
             modal3hide();
             ref_btn.click();
+            alert("재료가 저장되었습니다.");
         }
         ,error : function(request, status, error) {
             console.log(error);

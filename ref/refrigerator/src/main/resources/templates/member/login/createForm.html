@@ -41,12 +41,13 @@
                             <label for="nickname">닉네임</label>
                             <span id="validNickname"></span>
                         </div>
-                        <div class="input-group" style="display:flex">
+                        <div class="input-group" >
                             <input id="phoneNum" name="phoneNum" placeholder=" " th:field="*{phoneNum}" type="text">
                             <label for="phoneNum">핸드폰 번호('-'없이 입력)</label>
                             <a id="sendPhoneBtn" type="button" class="button-search">
                                 <img th:src="@{/img/find/search.png}" alt="이미지" class="btnImg">
                             </a>
+                            <span id="checkPhoneNum"></span>
                         </div>
                         <div class="input-group" id="authPhoneNum" style="display:none">
                             <input id="checkInput" placeholder=" " type="text">
@@ -54,8 +55,9 @@
                             <a id="confirmBtn" type="button" class="button-search confirm">
                                 <img th:src="@{/img/find/check.png}" alt="이미지" class="btnImg">
                             </a>
+
                         </div>
-                        <span id="checkPhoneNum"></span>
+
                         <div class="input-group" id="test">
                             <input id="PW" oninput="validatePassword()" placeholder=" " th:field="*{password}"
                                    type="password">
@@ -206,6 +208,7 @@
         var nickname = $("#nickname").val();
         var spanNickname = document.getElementById("validNickname")
         var regex = /^[a-zA-Z가-힣0-9]*$/;
+        var checkLength = /^.{2,8}$/
 
         if (nickname) {
             $.ajax({
@@ -219,6 +222,10 @@
                 success: function (result) {
                     if (!regex.test(nickname)) {
                         spanNickname.innerHTML = "<span style='color:red'>영어, 한글, 숫자만 입력 가능합니다.</span>";
+                        document.getElementById("nickname").style.border = "0.125rem solid red";
+                        nickComplete = 0;
+                    } else if(!checkLength.test(nickname)){
+                        spanNickname.innerHTML = "<span style='color:red'>2글자 이상 8글자 이하까지 가능합니다.</span>";
                         document.getElementById("nickname").style.border = "0.125rem solid red";
                         nickComplete = 0;
                     } else {
@@ -290,30 +297,38 @@
     //phone check start
     var spanPhoneNum = document.getElementById("checkPhoneNum");
     var authPhoneNum = document.getElementById("authPhoneNum");
+    var phoneId = document.getElementById("phoneNum");
 
     $('#sendPhoneBtn').click(function () {
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
         var phoneNum = $('#phoneNum').val();
 
-        if (checkPhone(phoneNum)) {
-            $.ajax({
-                url: "/member/phoneChk",
-                type: "post",
-                data: phoneNum,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(header, token);
-                },
-                success: function (data) {
-                    alert("인증번호를 발송했습니다.")
-                    console.log("data : " + data);
-                    spanPhoneNum.innerHTML = "";
-                    authPhoneNum.style.display = "flex";
-                    check(data);
-                }
-            })
-        } else {
-            spanPhoneNum.innerHTML = "<span style='color:red'>잘못된 핸드폰 번호입니다.</span>";
+        if(phoneNum) {
+            if (checkPhone(phoneNum)) {
+                $.ajax({
+                    url: "/member/phoneChk",
+                    type: "post",
+                    data: phoneNum,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    },
+                    success: function (data) {
+                        alert("인증번호를 발송했습니다.")
+                        console.log("data : " + data);
+                        spanPhoneNum.innerHTML = "";
+                        phoneId.style.border = "0.125rem solid #4EA685 ";
+                        authPhoneNum.style.display="block";
+                        check(data);
+                    }
+                })
+            } else {
+                spanPhoneNum.innerHTML = "<span style='color:red'>잘못된 핸드폰 번호입니다.</span>";
+                phoneId.style.border = "0.125rem solid red";
+            }
+        }else{
+            spanPhoneNum.innerHTML = "";
+            phoneId.style.border = "0.1rem solid gray";
         }
     })
 

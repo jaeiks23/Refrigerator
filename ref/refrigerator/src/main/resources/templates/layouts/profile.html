@@ -15,7 +15,6 @@
                
     .profile-container {
     min-height: 500px;
-    padding-bottom: 25px;
     padding-left: 50px;
     padding-right: 50px;
     margin-top: 50px
@@ -25,22 +24,35 @@
 	border-radius: 10px;
 	border-top: 2px solid black;
 	padding-right: 500px;
-	padding-bottom: 125px;
 	width: 1050px;
 	}
     .profile-image {
      margin-left: 100px;
      margin-right: 100px; /* 프로필 사진과 프로필 정보 사이의 간격 조정 */
-     margin-top: -20px;
      height: 200px;
      width: 200px;
      display: inline-block;
     }
 
     .profile-info {
-    display : inline-block;
+    display: block;
     position: relative;
-    right: 4%;
+    left: 40.7%;
+    bottom: 270px;
+    }
+    .camara{
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      top: 44%;
+      left: 26.8%;
+      z-index: 6;
+    }
+    #passwordUpdate{
+    display: block;
+    left: 6.1%;
+    position: relative;
+    bottom: 270px;
     }
 
   .profile-details button {
@@ -416,7 +428,8 @@
             var nickname = $("#newNickname").val();
             var spanNickname = document.getElementById("validNickname")
             var regex = /^[a-zA-Z가-힣0-9]*$/;
-
+            var checkLength = /^.{2,8}$/
+            
             if (nickname) {
                 $.ajax({
                     url: "/member/nickChk",
@@ -431,7 +444,11 @@
                             spanNickname.innerHTML = "<span style='color:red'>영어, 한글, 숫자만 입력 가능합니다.</span>";
                             document.getElementById("newNickname").style.border = "0.125rem solid red";
                             nickComplete = 0;
-                        } else {
+                        }else if(!checkLength.test(nickname)){
+                        	spanNickname.innerHTML = "<span style='color:red'>2글자 이상 8글자 이하까지 가능합니다.</span>";
+                            document.getElementById("nickname").style.border = "0.125rem solid red";
+                            nickComplete = 0;
+                        }else {
                             var dupleNick = result.result;
                             if (dupleNick == false) {
                                 spanNickname.innerHTML = "<span style='color:red'>중복 닉네임입니다.</span>";

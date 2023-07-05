@@ -76,6 +76,7 @@ body {
   position: relative;
   margin-bottom: 0.75rem;
   width: 100%;
+
   max-width: 28rem;
 }
 
@@ -129,16 +130,14 @@ body {
 .button-search {
   box-shadow: 0 0 40px 40px transparent inset, 0 0 0 0 transparent;
   border-radius: 50%;
-
   position: absolute;
-  top: 18%;
+  top: 19%;
   right: 5%;
   width: 12%;
-  height: 65%;
+  height: 44px;
   padding-right: 0.5rem;
   color: white;
   transition: all 150ms ease-in-out;
-
   text-align: center;
 }
 
@@ -147,8 +146,10 @@ body {
 }
 
 .btnImg {
-  transform: translate(15%, 40%);
+  transform: translate(12%, 40%);
 }
+
+
 
 .button-change {
   position: relative;

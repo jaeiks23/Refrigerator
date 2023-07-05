@@ -9,7 +9,7 @@
 		삭제된 게시물입니다.
 	</div>
 	<div th:if="${cookDetailViewDTO.cookBoard.delcheck.toString()}!='Y'">
-		<img th:src="@{/img/notify.png}" th:if="${cookDetailViewDTO.cookBoard.member.id}!=${member.id}" onclick="notifyingMain()" width="50px" height="50px" id="notifyButton">
+		<img th:src="@{/img/notify3.png}" th:if="${cookDetailViewDTO.cookBoard.member.id}!=${member.id}" onclick="notifyingMain()" width="50px" height="50px" id="notifyButton">
 		
 		<div class="buttonContainer" th:if="${member.name.toString()}!='guest'">
 			<button type="button" class="reButton" th:if="${cookDetailViewDTO.cookBoard.member.id}==${member.id}" th:onclick="|location.href='@{/cookBoard/CookBoardDetail/rewrite(writingId=${cookDetailViewDTO.cookBoard.writingid})}'|">수정</button>
@@ -26,7 +26,7 @@
 					<div class="nick" th:text="${cookDetailViewDTO.cookBoard.member.nickname}"></div>
 					<div class="seenCount" th:text="' | '+'조회수 : '+${cookDetailViewDTO.cookBoard.seencount}+' | '"></div>
 					<div class="recomCount" th:text="'추천수 : '+${cookDetailViewDTO.cookBoard.recomcount}+' | '" th:value="${cookDetailViewDTO.cookBoard.recomcount}"></div>
-					<img th:src="@{/img/goodJob.png}" onclick="recomFunc()" id="goodJob" width="30px" height="30px">
+					<img th:if="${member.name.toString()}!='guest'" th:src="@{/img/goodJob.png}" onclick="recomFunc()" id="goodJob" width="30px" height="30px">
 					<div class="regDate" th:text="' | '+${#temporals.format(cookDetailViewDTO.cookBoard.regdate,'yyyy-MM-dd HH:mm')}"></div>
 				</td>
 			</tr>
@@ -42,9 +42,9 @@
 				<td th:text="${comment.member.nickname}" th:class="'comment'+${i.count}+'memNick comm nickName'" width="250px"></td>
 				<td th:text="${comment.content}" th:class="'comment'+${i.count}+'content comm commentContent'" width="835px"></td>
 				<td th:text="${#temporals.format(comment.regdate,'yyyy-MM-dd HH:mm')}" class="comm comReg"></td>
-				<td th:if="${comment.member.id}==${member.id}"><button type="button" onclick="reComment(this.value)" th:value="'comment'+${i.count}" class="commentExtra">수정</button></td>
-				<td th:if="${comment.member.id}==${member.id}"><button type="button" onclick="delFunc(this.value)" th:value="'comment'+${i.count}" class="commentExtra">X</button></td>
-				<td><button type="button" onclick="notifyingComment(this.value)" th:value="'comment'+${i.count}" class="commentExtra">신고</button></td>
+				<td th:if="${comment.member.id}==${member.id}"><button type="button" onclick="reComment(this.value)" th:value="'comment'+${i.count}" class="commentExtra">수정</button>/</td>
+				<td th:if="${comment.member.id}==${member.id}"><button type="button" onclick="delFunc(this.value)" th:value="'comment'+${i.count}" class="commentExtra">삭제</button></td>
+				<td th:if="${comment.member.id}!=${member.id}"><button type="button" onclick="notifyingComment(this.value)" th:value="'comment'+${i.count}" class="commentExtra commentNotifying">신고</button></td>
 				<td style="display: none;"><input type="hidden" th:value="${comment.commentid}" th:id="'comment'+${i.count}"></td>
 				<td style="display: none;"><input type="hidden" th:value="${comment.member.email}" th:class="'comment'+${i.count}+'memMail'"></td>
 			</tr>
@@ -52,8 +52,8 @@
 		</div>
 		
 			
-			<input type="text" id="commentInput" name="content" th:if="${member.name.toString()}=='guest'" placeholder="로그인 후 입력해주세요" readonly="readonly"/>
-			<input type="text" id="commentInput" name="content"  th:if="${member.name.toString()}!='guest'" onkeypress="enter()"/>
+			<textarea id="commentInput" name="content" th:if="${member.name.toString()}=='guest'" placeholder="로그인 후 입력해주세요" readonly="readonly"></textarea>
+			<textarea id="commentInput" name="content"  th:if="${member.name.toString()}!='guest'" onkeypress="enter()"></textarea>
 			<button type="button" id="commentButton" onclick="commentSend()">댓글 입력</button>
 			<button type="button" class="backButton" onclick="history.back()">목록으로</button>
 			

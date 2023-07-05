@@ -52,7 +52,7 @@ public class CookBoardService {
 		try {
 			if(!StringUtils.isEmpty(oriName)) {
 				imgName = fileService.uploadFile(uploadPath, oriName, image.getBytes());
-				url="/images/project/"+imgName;
+				url="/main/project/"+imgName;
 			}
 			cookImage.saveCookImage(imgName, oriName, url);
 			cookImageRepository.save(cookImage);

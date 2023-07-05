@@ -19,7 +19,7 @@
 		<div th:if="${nonWriting}!=null">[[${nonWriting}]]</div>
 		<div class="content" th:each="cookBoard : ${cookBoards}">
 			
-			<div class="imgBack"><img class="cookImg" th:src="${cookBoard.cookImage.url}" th:onclick="|location.href='@{/cookBoard/CookBoardDetail(writingId=${cookBoard.writingId})}'|" onerror="this.style.display='none';"></div>
+			<div class="imgBack" th:onclick="|location.href='@{/cookBoard/CookBoardDetail(writingId=${cookBoard.writingId})}'|"><img class="cookImg" th:src="${cookBoard.cookImage.url}" onerror="this.style.display='none';"></div>
 			<div class="title"><a th:href="'/cookBoard/CookBoardDetail?writingId='+${cookBoard.writingId}">[[${cookBoard.title}]]</a></div>
 			<div th:text="${cookBoard.member.nickname}" class="nickName"></div>
 			<div th:text="'추천수 '+${cookBoard.recomCount}+' |' " class="recomAndseen"></div>
